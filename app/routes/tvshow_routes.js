@@ -2,6 +2,7 @@ const express = require('express')
 const passport = require('passport')
 
 const TvShow = require('../models/tvshows')
+const User = require('../models/user')
 
 const customErrors = require('../../lib/custom_errors')
 const handle404 = customErrors.handle404
@@ -16,6 +17,7 @@ const router = express.Router()
 router.post('/favorites', requireToken, (req, res, next) => {
 	// set owner of new example to be current user
 	req.body.tvShow.owner = req.user.id
+	console.log(req.user.id)
 
 	TvShow.create(req.body.tvShow)
 		// respond to succesful `create` with status 201 and JSON of new "example"
@@ -28,13 +30,27 @@ router.post('/favorites', requireToken, (req, res, next) => {
 		.catch(next)
 })
 
-router.get('/favorites', (req, res, next) => {
-    TvShow.find({ owner: req.user.id })
-        .populate("owner")
-        .then(tvShows => {
-			console.loy(tvShows)
-            return tvShows.map((tvShow) => tvShow.toObject())
+// router.get('/favorites/:id', (req, res, next) => {
+// 	console.log(User)
+//     TvShow.find()
+// 		.populate('owner')
+// 		.then(handle404)
+//         .then((tvShow) => res.status(200).json({ tvShow: tvShow }))
+//         .catch(next)
+// })
+
+router.get('/favorites', requireToken, (req, res, next) => {
+    // req.params.id will be set based on the `:id` in the route
+	console.log('req inside of favorites index', req)
+    TvShow.find({owner: req.user.id})
+        .populate('owner')
+        .then(handle404)
+        // if `findById` is succesful, respond with 200 and "post" JSON
+        // .then((tvShow) => res.status(200).json({ tvShow: tvShow.toObject() }))
+        .then(tvShow => {
+            res.status(200).json({ tvShow: tvShow})
         })
+        // if an error occurs, pass it to the handler
         .catch(next)
 })
 
