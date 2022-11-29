@@ -15,10 +15,17 @@ const handle404 = customErrors.handle404
 ///////GET route to INDEX reviews by show//////
 router.get('/reviews/:showId', (req, res, next) => {
     const showId = req.params.showId
-    Review.find({tvShow: showId})
-        .populate("owner")
+    console.log(showId)
+    Review.find({apiId: showId})
+        // .populate("owner")
         .then(reviews => {
-            return reviews.map((review) => review.toObject())
+            console.log('reviews',reviews)
+            return reviews.map(review => review)
+            // return reviews.map((review) => {review.toObject()})
+            // res.status(200).json({ reviews: reviews })
+        })
+        .then(reviews => {
+            res.status(200).json({ reviews: reviews })
         })
         .catch(next)
 })
@@ -36,6 +43,7 @@ router.post('/reviews/:showId', requireToken, (req, res, next) => {
                 review.save()
         })
         .catch(next)
+})
 
 	// TvShow.findById(showId)
 	// 	.then((review) => {
@@ -47,7 +55,7 @@ router.post('/reviews/:showId', requireToken, (req, res, next) => {
 	// 	// the error handler needs the error message and the `res` object so that it
 	// 	// can send an error message back to the client
 	// 	.catch(next)
-})
+
 
 // // SHOW
 // // GET /examples/5a7db6c74d55bc51bdf39793

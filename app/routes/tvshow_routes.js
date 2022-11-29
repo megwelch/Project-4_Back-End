@@ -22,6 +22,7 @@ router.post('/favorites', requireToken, (req, res, next) => {
 	TvShow.create(req.body.tvShow)
 		// respond to succesful `create` with status 201 and JSON of new "example"
 		.then((tvShow) => {
+			console.log(tvShow)
 			res.status(201).json({ tvShow: tvShow.toObject() })
 		})
 		// if an error occurs, pass it off to our error handler
@@ -41,7 +42,7 @@ router.post('/favorites', requireToken, (req, res, next) => {
 
 router.get('/favorites', requireToken, (req, res, next) => {
     // req.params.id will be set based on the `:id` in the route
-	console.log('req inside of favorites index', req)
+	// console.log('req inside of favorites index', req)
     TvShow.find({owner: req.user.id})
         .populate('owner')
         .then(handle404)

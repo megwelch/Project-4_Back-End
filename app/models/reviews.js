@@ -13,7 +13,10 @@ const ReviewSchema = new mongoose.Schema(
         tvshow: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Show'
-        }
+        },
+        apiId: {
+            type: Number
+        },
 	},
     {
         timestamps: true,

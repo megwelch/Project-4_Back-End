@@ -18,6 +18,9 @@ const tvShowSchema = new mongoose.Schema(
 			type: String,
 			
 		},
+		apiId: {
+            type: Number
+        },
 		owner: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
