@@ -1,5 +1,6 @@
 const express = require('express')
 const Review = require('../models/reviews')
+const TvShow = require('../models/tvshows')
 
 const passport = require('passport')
 const requireToken = passport.authenticate('bearer', { session: false })
@@ -14,7 +15,7 @@ const handle404 = customErrors.handle404
 ///////GET route to INDEX reviews by show//////
 router.get('/reviews/:showId', (req, res, next) => {
     const showId = req.params.showId
-    Review.find({show: showId})
+    Review.find({tvShow: showId})
         .populate("owner")
         .then(reviews => {
             return reviews.map((review) => review.toObject())
@@ -23,19 +24,29 @@ router.get('/reviews/:showId', (req, res, next) => {
 })
 
 ////POST route to CREATE review//////////
-router.post('/reviews', requireToken, (req, res, next) => {
+router.post('/reviews/:showId', requireToken, (req, res, next) => {
 	// set owner of new example to be current user
 	req.body.review.owner = req.user.id
+    Review.create(req.body.review)
+        .then(review => {
+            TvShow.findById(review.tvshow)
+                .then(tvshow => {
+                    res.status(201).json({ review: review.toObject() })
+                })
+                review.save()
+        })
+        .catch(next)
 
-	Review.create(req.body.review)
-		// respond to succesful `create` with status 201 and JSON of new "example"
-		.then((review) => {
-			res.status(201).json({ review: review.toObject() })
-		})
-		// if an error occurs, pass it off to our error handler
-		// the error handler needs the error message and the `res` object so that it
-		// can send an error message back to the client
-		.catch(next)
+	// TvShow.findById(showId)
+	// 	.then((review) => {
+    //         // TvShow.findById(review.tvShow)
+	// 		res.status(201).json({ review: review.toObject() })
+    //         return
+	// 	})
+	// 	// if an error occurs, pass it off to our error handler
+	// 	// the error handler needs the error message and the `res` object so that it
+	// 	// can send an error message back to the client
+	// 	.catch(next)
 })
 
 // // SHOW

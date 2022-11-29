@@ -9,7 +9,11 @@ const ReviewSchema = new mongoose.Schema(
         owner: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User'
-		}
+		},
+        tvshow: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Show'
+        }
 	},
     {
         timestamps: true,
