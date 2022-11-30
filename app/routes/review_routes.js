@@ -15,7 +15,6 @@ const handle404 = customErrors.handle404
 ///////GET route to INDEX reviews by show//////
 router.get('/reviews/:showId', (req, res, next) => {
     const showId = req.params.showId
-    console.log(showId)
     Review.find({apiId: showId})
         // .populate("owner")
         .then(reviews => {
@@ -34,6 +33,7 @@ router.get('/reviews/:showId', (req, res, next) => {
 router.post('/reviews/:showId', requireToken, (req, res, next) => {
 	// set owner of new example to be current user
 	req.body.review.owner = req.user.id
+    console.log('req', req)
     Review.create(req.body.review)
         .then(review => {
             TvShow.findById(review.tvshow)
@@ -95,6 +95,7 @@ router.patch('/reviews/:id', requireToken, removeBlanks, (req, res, next) => {
 // DESTROY
 // DELETE /examples/5a7db6c74d55bc51bdf39793
 router.delete('/reviews/:id', requireToken, (req, res, next) => {
+    console.log('req.params.id',req.params.id)
 	Review.findById(req.params.id)
 		.then(handle404)
 		.then((review) => {
@@ -111,3 +112,5 @@ router.delete('/reviews/:id', requireToken, (req, res, next) => {
 
 
 module.exports = router
+
+//unsure of how to access id here//
