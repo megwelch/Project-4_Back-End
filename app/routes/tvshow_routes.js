@@ -17,13 +17,12 @@ const router = express.Router()
 router.post('/favorites', requireToken, (req, res, next) => {
 	// set owner of new example to be current user
 	req.body.tvShow.owner = req.user.id
-	console.log(req.user.id)
+	console.log(req.body)
 
 	TvShow.create(req.body.tvShow)
 		// respond to succesful `create` with status 201 and JSON of new "example"
 		.then((tvShow) => {
-			console.log(tvShow)
-			res.status(201).json({ tvShow: tvShow.toObject() })
+				res.status(201).json({ tvShow: tvShow.toObject() })
 		})
 		// if an error occurs, pass it off to our error handler
 		// the error handler needs the error message and the `res` object so that it
@@ -53,6 +52,23 @@ router.get('/favorites', requireToken, (req, res, next) => {
         })
         // if an error occurs, pass it to the handler
         .catch(next)
+})
+
+// DESTROY
+// DELETE /examples/5a7db6c74d55bc51bdf39793
+router.delete('/favorites/:id', requireToken, (req, res, next) => {
+	TvShow.findById(req.params.id)
+		.then(handle404)
+		.then((review) => {
+			// throw an error if current user doesn't own `example`
+			requireOwnership(req, review)
+			// delete the example ONLY IF the above didn't throw
+			review.deleteOne()
+		})
+		// send back 204 and no content if the deletion succeeded
+		.then(() => res.sendStatus(204))
+		// if an error occurs, pass it to the handler
+		.catch(next)
 })
 
 module.exports = router
