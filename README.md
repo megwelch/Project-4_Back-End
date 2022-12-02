@@ -14,6 +14,7 @@ Bingeworthy is a fullstack application that provides users with the ability to s
 - HTML
 - CSS
 - Bootstrap
+- <a href='https://www.tvmaze.com/api'>API</a>
 - Javascript
 - Express 
 - React
@@ -75,6 +76,7 @@ There are many things that I have learned/gained more understanding of during th
 - user can view tv shows/reviews without being logged in, but favorite/review buttons will not be displayed
 - add more info about tv shows (cast, director, etc.)
 - add timestamps to reviews
+- make styling responsive to screen size
 
 ## Bugs to Fix:
 - reviews are deleting on the backend but not displaying correctly when deleted on the frontend until refresh
