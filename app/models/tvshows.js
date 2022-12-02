@@ -8,12 +8,6 @@ const tvShowSchema = new mongoose.Schema(
 		image: {
 			type: String,
 		},
-		// rating: {
-		// 	type: String,
-		// },
-		// cast: {
-		// 	type: Array,
-		// },
 		description: {
 			type: String,
 			
@@ -24,7 +18,7 @@ const tvShowSchema = new mongoose.Schema(
 		owner: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
-		}
+		},
 	}
 )
 
