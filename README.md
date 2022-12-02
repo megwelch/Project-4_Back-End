@@ -77,4 +77,4 @@ There are many things that I have learned/gained more understanding of during th
 - add timestamps to reviews
 
 ## Bugs to Fix:
-- reviews are not deleting on the backend but not displaying correctly when deleted on the frontend
+- reviews are deleting on the backend but not displaying correctly when deleted on the frontend until refresh
