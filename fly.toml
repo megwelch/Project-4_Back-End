@@ -10,7 +10,7 @@ processes = []
 
 [env]
   PORT = "8080"
-  MONGODB_URI = "mongodb+srv://meg:meg@bingeworthy.kjscr7k.mongodb.net/bingeworthy?retryWrites=true&w=majority"
+  MONGODB_URI = "mongodb+srv://megwelch:Mackenzie1@megs-apps.o4huq71.mongodb.net/?retryWrites=true&w=majority"
   CLIENT_ORIGIN = "https://binge-worthy.netlify.app"
 
 [experimental]
